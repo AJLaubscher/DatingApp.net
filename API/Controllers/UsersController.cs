@@ -7,9 +7,8 @@ using Microsoft.OpenApi.Validations;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")] // localhost:5001/api/users
-    [ApiController]
-    public class UsersController(DataContext dbContext) : ControllerBase
+
+    public class UsersController(DataContext dbContext) : BaseApiController
     {
 
 
