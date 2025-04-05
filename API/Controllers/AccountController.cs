@@ -25,25 +25,25 @@ namespace API.Controllers
             {
                 return BadRequest("Username is taken");
             }
-            
-            using var hmac = new HMACSHA512();
+            return Ok();
+            // using var hmac = new HMACSHA512();
 
-            var user = new AppUser{
-                UserName = registerDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
-            };
+            // var user = new AppUser{
+            //     UserName = registerDto.Username.ToLower(),
+            //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+            //     PasswordSalt = hmac.Key
+            // };
 
-            dbContext.Users.Add(user);
-            await dbContext.SaveChangesAsync();        
+            // dbContext.Users.Add(user);
+            // await dbContext.SaveChangesAsync();        
 
-                        var response =  new UserDto
-            {
-                Username = user.UserName,
-                token = tokenService.CreateToken(user)
-            };
+            //             var response =  new UserDto
+            // {
+            //     Username = user.UserName,
+            //     token = tokenService.CreateToken(user)
+            // };
 
-            return response;
+            // return response;
         }
 
         [AllowAnonymous]
