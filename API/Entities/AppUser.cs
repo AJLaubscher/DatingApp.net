@@ -1,4 +1,5 @@
 using System;
+using API.Extentions;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities;
@@ -20,5 +21,10 @@ public string? LookingFor {get; set;}
 public required string City {get; set;}
 public required string Country {get; set;}
 public List<Photo> Photo {get; set;} = [];
+
+public int GetAge()
+{
+    return DateOfBirth.CalculateAge();
+}
 
 }
