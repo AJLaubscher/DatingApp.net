@@ -21,7 +21,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
 
-            if(await UserExist(registerDto.Username))
+            if (await UserExist(registerDto.Username))
             {
                 return BadRequest("Username is taken");
             }
@@ -50,9 +50,11 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+            var user = await dbContext.Users
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
-            if(user == null)
+            if (user == null)
             {
                 return Unauthorized("Invalid username");
             }
@@ -63,13 +65,14 @@ namespace API.Controllers
 
             for (int i = 0; i < computedhash.Length; i++)
             {
-                if(computedhash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+                if (computedhash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
             }
 
-            var response =  new UserDto
+            var response = new UserDto
             {
                 Username = user.UserName,
-                token = tokenService.CreateToken(user)
+                Token = tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
 
             return response;
