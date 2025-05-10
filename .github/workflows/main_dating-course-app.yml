@@ -28,7 +28,7 @@ jobs:
 
       - name: Install deps and build angular app
         run: |
-          cd client
+          cd ../../DatingApp.frontend/client
           npm install
           ng build
 
